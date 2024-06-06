@@ -1,12 +1,11 @@
 import express, { Request, Response, json } from "express";
+import { getPlayer } from "./controllers/players-controller";
 
 function createApp() {
     const app = express();
 
     app.use(json());
-    app.get('/', (req: Request, res: Response) => {
-        res.status(200).json({ player: "Vinicius Junior" });
-    });
+    app.get('/', getPlayer);
 
     return app;
 }
