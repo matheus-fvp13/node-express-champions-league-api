@@ -1,8 +1,10 @@
-import { findAllPlayers, findPlayerById } from "../repositories/players-repository";
+import { response } from "express";
+import { PlayerModel } from "../models/player-model";
+import * as PlayerRepository from "../repositories/players-repository";
 import * as HttpResponse  from "../utils/http-helper";
 
 export const getPlayerService = async () => {
-    const data =  await findAllPlayers();
+    const data =  await PlayerRepository.findAllPlayers();
     let response = null;
 
     if(data) {
@@ -12,10 +14,10 @@ export const getPlayerService = async () => {
     }
     
     return response;
-}
+};
 
 export const getPlayerByIdService = async (id: number) => {
-    const data = await findPlayerById(id);
+    const data = await PlayerRepository.findPlayerById(id);
     let response = null;
 
     if(data) {
@@ -25,4 +27,15 @@ export const getPlayerByIdService = async (id: number) => {
     }
 
     return response;
-}
+};
+
+export const createPlayerService = async (player: PlayerModel) => {
+    let response = null;
+    if(Object.keys(player).length !== 0) {
+        await PlayerRepository.insertPlayer(player);
+        response = await HttpResponse.created();
+    }else {
+        response = await HttpResponse.badRequest();
+    }
+    return response;
+};
