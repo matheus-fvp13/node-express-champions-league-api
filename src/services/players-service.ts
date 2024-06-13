@@ -1,4 +1,5 @@
 import { PlayerModel } from "../models/player-model";
+import { StatisticsModel } from "../models/statistics-model";
 import * as PlayerRepository from "../repositories/players-repository";
 import * as HttpResponse  from "../utils/http-helper";
 
@@ -43,4 +44,9 @@ export const deletePlayerService = async (id: number) => {
     await PlayerRepository.deletePlayerById(id);
 
     return await HttpResponse.noContent();
-}
+};
+
+export const updatePlayerService = async (id: number, bodyValue: StatisticsModel) => {
+    const data = await PlayerRepository.findAndModifyPlayer(id, bodyValue);
+    return await HttpResponse.ok(data);
+};
