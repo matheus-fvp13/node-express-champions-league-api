@@ -1,4 +1,3 @@
-import { response } from "express";
 import { PlayerModel } from "../models/player-model";
 import * as PlayerRepository from "../repositories/players-repository";
 import * as HttpResponse  from "../utils/http-helper";
@@ -39,3 +38,9 @@ export const createPlayerService = async (player: PlayerModel) => {
     }
     return response;
 };
+
+export const deletePlayerService = async (id: number) => {
+    await PlayerRepository.deletePlayerById(id);
+
+    return await HttpResponse.noContent();
+}
